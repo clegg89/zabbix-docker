@@ -2,6 +2,7 @@ version: '3.5'
 services:
  zabbix-server:
   image: zabbix/zabbix-server-pgsql:ubuntu-5.4-latest
+  restart: unless-stopped
   ports:
    - "10051:10051"
   volumes:
@@ -220,9 +221,10 @@ services:
 
  zabbix-web-nginx-pgsql:
   image: zabbix/zabbix-web-nginx-pgsql:ubuntu-5.4-latest
+  restart: unless-stopped
   ports:
    - "8080:8080"
-   - "443:8443"
+   - "8443:8443"
   volumes:
    - /etc/localtime:/etc/localtime:ro
    - ./zbx_env/etc/ssl/nginx:/etc/ssl/nginx:ro
@@ -273,6 +275,7 @@ services:
 
  zabbix-agent:
   image: zabbix/zabbix-agent:ubuntu-5.4-latest
+  restart: unless-stopped
   profiles:
    - full
    - all
@@ -428,6 +431,7 @@ services:
 
  postgres-server:
   image: postgres:13-alpine
+  restart: unless-stopped
 #  command: -c ssl=on -c ssl_cert_file=/run/secrets/server-cert.pem -c ssl_key_file=/run/secrets/server-key.pem -c ssl_ca_file=/run/secrets/root-ca.pem
   volumes:
    - ./zbx_env/var/lib/postgresql/data:/var/lib/postgresql/data:rw
