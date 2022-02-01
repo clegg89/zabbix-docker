@@ -243,6 +243,9 @@ services:
   env_file:
    - ./env_vars/.env_db_pgsql
    - ./env_vars/.env_web
+  environment:
+   - VIRTUAL_HOST=zabbix.home.clegg.info
+   - VIRTUAL_PORT=8080
   secrets:
    - POSTGRES_USER
    - POSTGRES_PASSWORD
@@ -262,6 +265,7 @@ services:
      - zabbix-web-nginx-ubuntu-pgsql
      - zabbix-web-nginx-pgsql-ubuntu
    zbx_net_frontend:
+   zabbix-external:
   stop_grace_period: 10s
   sysctls:
    - net.core.somaxconn=65535
@@ -477,6 +481,8 @@ services:
 #     - elasticsearch
 
 networks:
+  zabbix-external:
+    external: true
   zbx_net_frontend:
     driver: bridge
     driver_opts:
